@@ -1,0 +1,107 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: antiquewhite;
+    color: slateblue;
+    line-height: 1.5;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70vh;
+    min-height: 500px;
+    padding: 10px;
+    margin-top: 50px;
+}
+
+.wrapper {
+    width: 450px;
+    border: 2px blue solid;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: cadetblue;
+}
+
+.screen {
+    padding: 10px 20px;
+    border: 2px grey solid;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: #7ecc30;
+    text-align: right;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.prevOpp {
+    min-height: 30px;
+    font-size: 15px;
+}
+
+.currentOpp {
+    min-height: 60px;
+    font-size: 30px;
+}
+
+.input {
+    display: flex;
+    grid-gap: 10px;
+}
+
+.key {
+    width: 97px;
+    height: 75px;
+  
+}
+
+button {
+    padding: 28px;
+    border: maroon;
+    border-radius: 3px;
+    background-color: tomato;
+    font-size: 15px;
+    margin: 5px 2px;
+}
+
+#enter {
+    background-color: orange;
+    height: 37%;
+}
+
+#plus {
+    background-color: rgb(66, 221, 185);
+    height: 38%;
+}
+
+.resetScreen {
+    display: flex;
+    justify-content: center;
+}
+
+#reset {
+    background-color: aqua;
+}
+
+.message {
+    padding: 10px;
+}
+
+.horizontal {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.transform {
+  transform: scale(1.1);
+  border-color: #ffc600;
+  box-shadow: 0 0 1rem #ffc600;
+}
