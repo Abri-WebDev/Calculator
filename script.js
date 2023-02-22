@@ -10,19 +10,6 @@ let secondOperation = '';
 let resetScreen = false;
 let currentOpe = null;
 
-numberButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      appendNumber(button.textContent);
-    });
-  });
-
-operatorButtons.forEach(button => {
-    button.addEventListener('click', function() {
-     setOperation(button.textContent);
-     console.log('operator button is ', button.textContent)
-    });
-  });
-
   function appendNumber (num) {
     if (currentOperation.textContent == '0' || resetScreen) {
       currentOperation.textContent = '';
@@ -34,8 +21,7 @@ operatorButtons.forEach(button => {
   function setOperation (e) {
     if (currentOpe !== null) { 
       secondOperation = currentOperation.textContent;
-      currentOperation.textContent =  calculate(currentOpe, firstOperation, secondOperation);
-
+      currentOperation.textContent =  roundResult(calculate(currentOpe, firstOperation, secondOperation));
       lastOperation.textContent = `${firstOperation} ${currentOpe} ${secondOperation}`;
       currentOpe = null;
     }
@@ -79,3 +65,29 @@ operatorButtons.forEach(button => {
         return null
     }
   }
+
+  function roundResult(number) {
+    return Math.round(number * 1000) / 1000
+  }
+  
+function refreshScreen () {
+  firstOperation = 0;
+  secondOperation = 0;
+  currentOpe = null;
+  lastOperation.textContent = '';
+  currentOperation.textContent = '';
+}
+
+operatorButtons.forEach(button => {
+  button.addEventListener('click', function() {
+   setOperation(button.textContent);
+  });
+});
+
+numberButtons.forEach(button => {
+  button.addEventListener('click', function() {
+    appendNumber(button.textContent);
+  });
+});
+
+refreshButton.addEventListener('click', refreshScreen);
