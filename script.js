@@ -19,6 +19,7 @@ numberButtons.forEach(button => {
 operatorButtons.forEach(button => {
     button.addEventListener('click', function() {
      setOperation(button.textContent);
+     console.log('operator button is ', button.textContent)
     });
   });
 
@@ -33,17 +34,48 @@ operatorButtons.forEach(button => {
   function setOperation (e) {
     if (currentOpe !== null) { 
       secondOperation = currentOperation.textContent;
-      console.log('second operation is ', secondOperation)
-      console.log('current operation is ', currentOperation.textContent)
+      currentOperation.textContent =  calculate(currentOpe, firstOperation, secondOperation);
+
       lastOperation.textContent = `${firstOperation} ${currentOpe} ${secondOperation}`;
       currentOpe = null;
     }
       firstOperation = currentOperation.textContent;
-      console.log('first operation on setOperation function is ', firstOperation)
       currentOpe = e;
       lastOperation.textContent = `${firstOperation} ${currentOpe}`;
       currentOperation.textContent = secondOperation;
-      console.log('last operation on setOperation function is ', lastOperation.textContent)
       resetScreen = true;
   }
  
+  function add (a, b) {
+    return b + a;
+  }
+  
+  function minus (a, b) {
+    return a - b;
+  }
+  
+  function divide (a, b) {
+    return a / b;
+  }
+  
+  function multiply (a, b) {
+    return a * b;
+  }
+
+  function calculate(operator, a, b) {
+    a = Number(a);
+    b = Number(b);
+    switch (operator) {
+        case '+':
+            return add (a, b);
+        case '-':
+            return minus (a, b);
+        case 'x':
+            return multiply (a, b);
+      case '/':
+        if (b === 0) return null
+        else return divide(a, b)
+      default:
+        return null
+    }
+  }
