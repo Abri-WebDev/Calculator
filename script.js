@@ -4,6 +4,7 @@ const numberButtons = document.querySelectorAll('[data-key]');
 const operatorButtons = document.querySelectorAll('[data-operator]');
 const decimalButtons = document.querySelector('[data-decimal]');
 const refreshButton = document.querySelector('.clear');
+const equalButtons = document.querySelector('[data-equal]')
 
 let firstOperation = '';
 let secondOperation = '';
@@ -20,18 +21,22 @@ let currentOpe = null;
 
   function setOperation (e) {
     if (currentOpe !== null) { 
-      secondOperation = currentOperation.textContent;
-      currentOperation.textContent =  roundResult(calculate(currentOpe, firstOperation, secondOperation));
-      lastOperation.textContent = `${firstOperation} ${currentOpe} ${secondOperation}`;
-      currentOpe = null;
+     operate();
     }
       firstOperation = currentOperation.textContent;
-      currentOpe = e;
+      currentOpe = convertOperator(e);
       lastOperation.textContent = `${firstOperation} ${currentOpe}`;
       currentOperation.textContent = secondOperation;
       resetScreen = true;
   }
  
+function operate () {
+  secondOperation = currentOperation.textContent;
+  currentOperation.textContent =  roundResult(calculate(currentOpe, firstOperation, secondOperation));
+  lastOperation.textContent = `${firstOperation} ${currentOpe} ${secondOperation}`;
+  currentOpe = null;
+}
+
   function add (a, b) {
     return b + a;
   }
@@ -58,7 +63,7 @@ let currentOpe = null;
             return minus (a, b);
         case 'x':
             return multiply (a, b);
-      case '/':
+      case '÷':
         if (b === 0) return null
         else return divide(a, b)
       default:
@@ -78,6 +83,26 @@ function refreshScreen () {
   currentOperation.textContent = '';
 }
 
+function convertOperator(keyboardOperator) {
+  if (keyboardOperator === '/' || keyboardOperator === '%') return '÷'
+  if (keyboardOperator === '*') return 'x'
+  if (keyboardOperator === '-') return '-'
+  if (keyboardOperator === '+') return '+'
+}
+
+function keyboardInput (e) {
+  console.log('keyboard in put is ', e.key)
+  if (e.key >= '0' && e.key <= '9') appendNumber(e.key);
+  if (e.key === 'Enter' || e.key === "=" || e.key === ' ') operate();
+  if (e.key === 'Escape' || e.key === 'r') refreshScreen();
+  if (e.key === '+' || e.key === '/' || e.key === '-' || e.key === '*' || e.key === '+') 
+{
+    e.preventDefault();
+    setOperation(e.key);
+  }
+}
+
+
 operatorButtons.forEach(button => {
   button.addEventListener('click', function() {
    setOperation(button.textContent);
@@ -90,4 +115,6 @@ numberButtons.forEach(button => {
   });
 });
 
+window.addEventListener('keydown', keyboardInput)
 refreshButton.addEventListener('click', refreshScreen);
+equalButtons.addEventListener('click', operate)
