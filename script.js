@@ -4,7 +4,9 @@ const numberButtons = document.querySelectorAll('[data-key]');
 const operatorButtons = document.querySelectorAll('[data-operator]');
 const decimalButtons = document.querySelector('[data-decimal]');
 const refreshButton = document.querySelector('.clear');
-const equalButtons = document.querySelector('[data-equal]')
+const equalButtons = document.querySelectorAll('[data-equal]');
+const deleteButton = document.querySelector('[data-delete]');
+const enterButton = document.querySelector('#enter');
 
 let firstOperation = '';
 let secondOperation = '';
@@ -12,6 +14,7 @@ let resetScreen = false;
 let currentOpe = null;
 
   function appendNumber (num) {
+    if (num === '.' && currentOperation.textContent.includes('.')) return;
     if (currentOperation.textContent == '0' || resetScreen) {
       currentOperation.textContent = '';
       resetScreen = false;
@@ -35,6 +38,7 @@ function operate () {
   currentOperation.textContent =  roundResult(calculate(currentOpe, firstOperation, secondOperation));
   lastOperation.textContent = `${firstOperation} ${currentOpe} ${secondOperation}`;
   currentOpe = null;
+  console.log('operate is ', operate)
 }
 
   function add (a, b) {
@@ -92,9 +96,10 @@ function convertOperator(keyboardOperator) {
 
 function keyboardInput (e) {
   console.log('keyboard in put is ', e.key)
-  if (e.key >= '0' && e.key <= '9') appendNumber(e.key);
+  if (e.key >= '0' && e.key <= '9' || e.key === '.') appendNumber(e.key);
   if (e.key === 'Enter' || e.key === "=" || e.key === ' ') operate();
   if (e.key === 'Escape' || e.key === 'r') refreshScreen();
+  if (e.key === 'Backspace' || e.key === 'd') deleteNumber();
   if (e.key === '+' || e.key === '/' || e.key === '-' || e.key === '*' || e.key === '+') 
 {
     e.preventDefault();
@@ -102,6 +107,9 @@ function keyboardInput (e) {
   }
 }
 
+function deleteNumber() {
+  currentOperation.textContent = currentOperation.textContent.slice(0, -1);
+}
 
 operatorButtons.forEach(button => {
   button.addEventListener('click', function() {
@@ -115,6 +123,8 @@ numberButtons.forEach(button => {
   });
 });
 
-window.addEventListener('keydown', keyboardInput)
+window.addEventListener('keydown', keyboardInput);
 refreshButton.addEventListener('click', refreshScreen);
-equalButtons.addEventListener('click', operate)
+deleteButton.addEventListener('click', deleteNumber);
+equalButtons.addEventListener('click', operate);
+enterButton.addEventListener('click', operate);
