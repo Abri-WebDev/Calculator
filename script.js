@@ -4,9 +4,9 @@ const numberButtons = document.querySelectorAll('[data-key]');
 const operatorButtons = document.querySelectorAll('[data-operator]');
 const decimalButtons = document.querySelector('[data-decimal]');
 const refreshButton = document.querySelector('.clear');
-const equalButtons = document.querySelectorAll('[data-equal]');
+const equalButtons = document.querySelector('.equal');
 const deleteButton = document.querySelector('[data-delete]');
-const enterButton = document.querySelector('#enter');
+const enterButton = document.querySelector('.enterClass');
 
 let firstOperation = '';
 let secondOperation = '';
@@ -20,6 +20,15 @@ let currentOpe = null;
       resetScreen = false;
     }
       currentOperation.textContent += num;
+      numberButtons.forEach(button => {
+      if (button.textContent === num) {
+          button.classList.add('bg-color');
+          setTimeout(() => {
+            button.classList.remove('bg-color');
+          }, 100);
+         }
+      });
+          
   }
 
   function setOperation (e) {
@@ -31,14 +40,24 @@ let currentOpe = null;
       lastOperation.textContent = `${firstOperation} ${currentOpe}`;
       currentOperation.textContent = secondOperation;
       resetScreen = true;
+      operatorButtons.forEach(button => {
+        console.log('button text content is ', button.textContent)
+      if (button.textContent === e) {
+          button.classList.add('bg-color');
+          setTimeout(() => {
+            button.classList.remove('bg-color');
+          }, 100);
+         }
+      });
+
   }
  
 function operate () {
   secondOperation = currentOperation.textContent;
   currentOperation.textContent =  roundResult(calculate(currentOpe, firstOperation, secondOperation));
   lastOperation.textContent = `${firstOperation} ${currentOpe} ${secondOperation}`;
+    console.log('current ope is ', currentOpe)
   currentOpe = null;
-  console.log('operate is ', operate)
 }
 
   function add (a, b) {
@@ -95,7 +114,6 @@ function convertOperator(keyboardOperator) {
 }
 
 function keyboardInput (e) {
-  console.log('keyboard in put is ', e.key)
   if (e.key >= '0' && e.key <= '9' || e.key === '.') appendNumber(e.key);
   if (e.key === 'Enter' || e.key === "=" || e.key === ' ') operate();
   if (e.key === 'Escape' || e.key === 'r') refreshScreen();
