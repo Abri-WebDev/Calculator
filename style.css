@@ -105,3 +105,8 @@ button {
   border-color: #ffc600;
   box-shadow: 0 0 1rem #ffc600;
 }
+
+.bg-color {
+    border-color: red;
+    transform: scale(1.1);
+  }
